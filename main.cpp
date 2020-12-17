@@ -1,7 +1,8 @@
 //Binary search tree by Faizan Karim
 //You know, last time i told myself i'd do my work on time but
 //that didn't really happen
-//changed the way i print out so this time the left/right children won't die
+//changed the way i print out so this time the left/right children wont die
+//reading numbers in again isn't working and don't think its my data
 
 
 #include <cstring>
