@@ -1,6 +1,7 @@
 //Binary search tree by Faizan Karim
 //You know, last time i told myself i'd do my work on time but
 //that didn't really happen
+//changed the way i print out so this time the left/right children won't die
 
 
 #include <cstring>
@@ -34,6 +35,8 @@ void remove(int value, Node* current);
 void shiftUp(Node* current, bool LR);
 Node* findLeast(Node* current, bool LR);
 
+//i know this is illegal, but desperate times call for desperate measures
+Node* head = NULL;
 
 int main()
 {
@@ -80,6 +83,7 @@ int main()
   }
   parseInput(input);
   cout << endl;
+
   printTree(head, NULL, false);
   while (true)
   {
