@@ -3,7 +3,7 @@
 //that didn't really happen
 //changed the way i print out so this time the left/right children wont die
 //reading numbers in again isn't working and don't think its my data
-
+//nevermind i forgot to put in the extension (.txt)
 
 #include <cstring>
 #include <iostream>
