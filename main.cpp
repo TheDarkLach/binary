@@ -29,5 +29,23 @@ Node* findLeast(Node* current, bool LR);
 
 int main()
 {
-
+  int method;
+  char fileName[20];
+  char input[1000];
+  int* parsed;
+  int value;
+  cout << endl << "How would you like to input your numbers? (1 for console, 2 for file)" << endl;
+  cin >> method;
+  cin.clear();
+  cin.ignore(1000000, '\n');
+  
+  if (method == 1)
+  {
+    //getting input from console, store in char array
+    cout << endl << "Input numbers with spaces in between them: " << endl <<;
+    cin.get(input, 1000);
+    cin.clear();
+    cin.ignore(1000000, '\n');
+    //cout << input << endl;
+  }
 }
