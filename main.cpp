@@ -1,17 +1,25 @@
-#include <iostream>
+//Binary search tree by Faizan Karim
+//You know, last time i told myself i'd do my work on time but
+//that didn't really happen
+
+
 #include <cstring>
-#include <iomanip>
+#include <iostream>
+#include <stdlib.h>
 #include <fstream>
+#include <cmath>
 
 #include "node.h"
 
 using namespace std;
 
-struct Trunk {
+struct Trunk
+{
   Trunk *prev;
   char* str;
 
-  Trunk(Trunk *prev, char* str) {
+  Trunk(Trunk *prev, char* str)
+  {
     this -> prev = prev;
     this -> str = str;
   }
@@ -257,4 +265,151 @@ void showTrunks(Trunk *p)
   showTrunks(p -> prev);
 
   cout << p -> str;
+}
+
+void printTree(Node* root, Trunk *prev, bool isLeft) {
+  /*what this method does is start out with the leftmost node and then print until the right most
+   *i chose to use this method from this site because it was visually appealing :)
+   */
+  if (root == NULL) //don't print if the tree is nonexistant
+    return;
+
+  char* prev_str = (char*)("    ");
+  Trunk *trunk = new Trunk(prev, prev_str);
+  printTree(root -> getLeft(), trunk, true);
+  if (!prev)
+    trunk -> str = (char*)("---");
+  else if (isLeft) {
+    trunk -> str = (char*)(".---");
+    prev_str = (char*)("   |");
+  }
+  else {
+    trunk -> str = (char*)("`---");
+    prev -> str = prev_str;
+  }
+  showTrunks(trunk);
+  cout << root -> getValue() << endl;
+
+  if (prev)
+    prev -> str = prev_str;
+  trunk -> str = (char*)("   |");
+  printTree(root -> getRight(), trunk, false);
+}
+
+void remove(int value, Node* current) {
+  //if the tree only has a head
+  if (current -> getParent() == NULL && current -> getLeft() == NULL && current -> getRight() == NULL) {
+    head = NULL;
+    return;
+  }
+  
+  Node* temp = search(value, current);  
+  
+  if (temp -> getLeft() == NULL && temp -> getRight() == NULL) {//if there are no childtren
+    if (temp -> getParent() -> getLeft() == temp) {
+      temp -> getParent() -> setLeft(NULL);
+      temp -> ~Node();
+      return;
+    }
+    else if (temp -> getParent() -> getRight() == temp) {
+      temp -> getParent() -> setRight(NULL);
+      temp -> ~Node();
+      return;
+    }
+  }
+  else {
+    if (temp -> getLeft() == NULL) {//if there is only a right child
+      if (temp -> getParent() -> getLeft() == temp) {
+	temp -> getParent() -> setLeft(temp -> getRight());
+	temp -> ~Node();
+	return;
+      }
+      else if (temp -> getParent() -> getRight() == temp) {
+	temp -> getParent() -> setRight(temp -> getRight());
+	temp -> ~Node();
+	return;
+      }
+    }
+    else if (temp -> getRight() == NULL) {//if there is only aleft child
+      if (temp -> getParent() -> getLeft() == temp) {
+	temp -> getParent() -> setLeft(temp -> getLeft());
+	temp -> ~Node();
+	return;
+      }
+      else if (temp -> getParent() -> getRight() == temp) {
+	temp -> getParent() -> setRight(temp -> getLeft());
+	temp -> ~Node();
+	return;
+      }
+    }
+    else {//if there are two children
+      //need to still move the rest of the subtree (finished)
+      //cout << "two children" << endl << endl;
+      if (temp -> getRight() -> getLeft() != NULL) {//min in right subtree
+	Node* temp2 = findLeast(temp -> getRight(), true);
+	temp -> setValue(temp2 -> getValue());
+	shiftUp(temp2, true);
+	//temp2 -> getParent() -> setLeft(NULL);
+	temp2 -> ~Node();
+      }
+      else if (temp -> getLeft() -> getRight() != NULL) {//max in left subtree
+	Node* temp2 = findLeast(temp -> getLeft(), false);
+	temp -> setValue(temp2 -> getValue());
+	shiftUp(temp2, false);
+	//temp2 -> getParent() -> setLeft(NULL);
+	temp2 -> ~Node();
+      }
+      else {//if none of the subtrees have children
+	temp -> setValue(temp -> getRight() -> getValue());
+	temp -> getRight() -> ~Node();
+	temp -> setRight(NULL);
+      }
+      return;
+    }
+  }
+}
+
+void shiftUp(Node* current, bool LR) {//true is shift left, false is shift right 
+  if (LR) {
+    current -> getParent() -> setLeft(current -> getRight());
+  }
+  else {
+    current -> getParent() -> setRight(current -> getLeft());
+  }
+  return;
+}
+
+ Node* findLeast(Node* current, bool LR) {//true for left min, false for right max
+   if (LR) {
+     while (current -> getLeft() != NULL)
+       current = current -> getLeft();
+   }
+   else {
+     while (current -> getRight() != NULL)
+       current = current -> getRight();
+   }
+   return current;
+ }
+
+Node* search(int value, Node* current) {//searching for a node with a certain value
+  if (value == current -> getValue())
+    return current;
+
+  else if (value > current -> getValue()) {
+    if (current -> getRight() == NULL)
+      return NULL;
+    else
+      search(value, current -> getRight());
+  }
+  
+  else if (value < current -> getValue()) {
+    if (current -> getLeft() == NULL)
+      return NULL;
+    else
+      search(value, current -> getLeft());
+  }
+
+  else {
+    return NULL;
+  }
 }
