@@ -60,7 +60,9 @@ int main()
     //cout << input << endl;
   }
 
-   else if (method == 2) {//getting input from file, store in char array
+   else if (method == 2) 
+   {
+    //getting input from file, store in char array
     cout << endl << "What is the name of the file?" << endl;
     cin.get(fileName, 20);
     cin.clear();
@@ -94,7 +96,8 @@ int main()
     cin >> method;
     cin.clear();
     cin.ignore(1000000, '\n');
-    if (method == 1) {
+    if (method == 1) 
+    {
       cout << "Please enter a num: ";
       cin >> value;
       cin.clear();
@@ -102,55 +105,66 @@ int main()
       cout << endl;
       addNode(value, head);
     }
-    else if (method == 2) {
+    else if (method == 2) 
+    {
       cout << "Please enter a num: ";
       cin >> value;
       cin.ignore(100000, '\n');
       cout << endl;
       Node* temp = search(value, head);
-      if (temp != NULL) {
+      if (temp != NULL) 
+      {
 	cout << endl << value << " has been deleted from EXISTENCE." << endl << endl;
 	remove(value, head);
       }
       else
+      {
 	cout << endl << value << " is not in the tree." << endl << endl;
+      }
       temp = NULL;
       delete temp;
     }
-    else if (method == 3) {
+    else if (method == 3) 
+    {
       cout << "Please enter a num: ";
       cin >> value;
       cin.ignore(1000000, '\n');
       cout << endl;
       Node* temp = search(value, head);
       if (temp != NULL)
+      {
 	cout << endl << value << " is in the tree." << endl << endl;
+      }
       else
+      {
 	cout << endl << value << " is not in the tree." << endl << endl;
+      }
       temp = NULL;
       delete temp;
     }
-    else if (method == 4) {
+    else if (method == 4) 
+    {
       break;
     }
-    else {
+    else 
+    {
       cout << endl << "Invalid Input." << endl;
       break;
     }
     
     if (head != NULL)
+    {
       printTree(head, NULL, false);
+    }
   }
   
   return 0;
 }
 
-void parseInput(char input[]) {//remove spaces between the chars, make int pointer (array)
-  /*This works by finding a space and adding a pointer, then moving forward in the array until it finds another
-   *space. It then adds another pointer and adds the characters between the spaces to a new char array, which is then
-   *turned to an int and added to the int pointer. This method was originally created by Zareef Amyeen, but I modified
-   *it for use with an int pointer instead of a vector. 
-   */
+//had something similar on shunting
+void parseInput(char input[]) 
+{
+  //remove spaces between the chars, make int pointer (array) 
   int counter;
   int* parsed;
   int pointers[2];
@@ -158,12 +172,15 @@ void parseInput(char input[]) {//remove spaces between the chars, make int point
   int* temp;
   counter = 1;
   pointers[0] = -1;
-  for (int i = 0; i < strlen(input); i++) {
-    if (input[i] == ' ') {
+  for (int i = 0; i < strlen(input); i++) 
+  {
+    if (input[i] == ' ') 
+    {
       pointers[1] = i;
       int j = 0;
       char* newArray = new char[pointers[1] - pointers[0]];
-      for (int i = pointers[0] + 1; i < pointers[1]; i++) {
+      for (int i = pointers[0] + 1; i < pointers[1]; i++) 
+      {
 	newArray[j] = input[i];
 	//cout << newArray[i] << endl;
 	j = j + 1;
@@ -171,23 +188,23 @@ void parseInput(char input[]) {//remove spaces between the chars, make int point
       newArray[j] = '\0';
       temp = parsed;
       parsed = new int[counter];
-      if (counter > 1) {
-	for (int i = 0; i < counter - 1; i++) {
+      if (counter > 1) 
+      {
+	for (int i = 0; i < counter - 1; i++) 
+	{
 	  parsed[i] = temp[i];
 	  //cout << parsed[i] << endl;
-}
+	}
       }
       parsed[counter - 1] = atoi(newArray);
-      /*for (int i = 0; i < counter; i++) {
-	cout << endl << parsed[i] << endl;
-	}*/
       counter = counter + 1;
       pointers[0] = pointers[1];
     }
   }
   char* newArray = new char[strlen(input) - pointers[0]];
   int j = 0;
-  for (int i = pointers[0] + 1; i < strlen(input); i++) {
+  for (int i = pointers[0] + 1; i < strlen(input); i++) 
+  {
     newArray[j] = input[i];
     //cout << newArray[j];
     j = j + 1;
@@ -196,31 +213,40 @@ void parseInput(char input[]) {//remove spaces between the chars, make int point
   temp = parsed;
   parsed = new int[counter];
   if (counter > 1) {
-    for (int i = 0; i < counter - 1; i++) {
+    for (int i = 0; i < counter - 1; i++) 
+    {
       parsed[i] = temp[i];
       //cout << parsed[i] << endl;
     }
   }
   parsed[counter - 1] = atoi(newArray);
-  /*for (int i = 0; i < counter; i++) {
-    cout << endl << parsed[i] << endl;
+  /*for (int i = 0; i < counter; i++)
+    {
+       cout << endl << parsed[i] << endl;
     }*/
-  //cout << "works" << endl;
-  for (int i = 0; i < counter; i++) {//add all input to the tree
-    //cout << "fault?" << endl;
+  for (int i = 0; i < counter; i++) 
+  {
+    //add all input to the tree
+    //cout << ":)" << endl;
     addNode(parsed[i], head);
   }
 }
 
-void addNode(int value, Node* current) {//method for adding nodes
-  //cout << "Works?" << endl;
-  if (head == NULL) {//if the tree doesn't exist
+void addNode(int value, Node* current) 
+{
+  //method for adding nodes
+  if (head == NULL) 
+  {
+    //if the tree doesn't exist
     head = new Node();
     head-> setValue(value);
   }
-  else {//if it does exist
-    if (value > current -> getValue()) {//if the value is larger than the current node
-      if (current -> getRight() == NULL) {//if the node doesn't have a right child
+  else 
+  {//if it does exist
+    if (value > current -> getValue()) 
+    {
+      if (current -> getRight() == NULL) 
+      {
 	current -> setRight(new Node());
 	current -> getRight() -> setParent(current);
 	current -> getRight() -> setValue(value);
@@ -271,9 +297,10 @@ void showTrunks(Trunk *p)
   cout << p -> str;
 }
 
-void printTree(Node* root, Trunk *prev, bool isLeft) {
-  /*what this method does is start out with the leftmost node and then print until the right most
-   *i chose to use this method from this site because it was visually appealing :)
+void printTree(Node* root, Trunk *prev, bool isLeft) 
+{
+  /* start out with the leftmost node and then print until the right most
+   * Visual tree printing from //www.techiedelight.com/c-program-print-binary-tree/
    */
   if (root == NULL) //don't print if the tree is nonexistant
     return;
@@ -300,9 +327,11 @@ void printTree(Node* root, Trunk *prev, bool isLeft) {
   printTree(root -> getRight(), trunk, false);
 }
 
-void remove(int value, Node* current) {
+void remove(int value, Node* current) 
+{
   //if the tree only has a head
-  if (current -> getParent() == NULL && current -> getLeft() == NULL && current -> getRight() == NULL) {
+  if (current -> getParent() == NULL && current -> getLeft() == NULL && current -> getRight() == NULL) 
+  {
     head = NULL;
     return;
   }
